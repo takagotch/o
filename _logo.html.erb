@@ -1,0 +1,13 @@
+attachment :logo,
+content_type: %w(image/jpeg image/png/image/gif image/svg+xml)
+
+= link_to image_tag(imgix_url("/shop/#{shop.logo_id}",
+{ auto: "compress, format", w: 300, h: 300, fit: "crop" }),
+filename: shop.logo_filename)
+
+def imgix_url(path, **options)
+options[:lossless] = true if options[:lossless].nil?
+host = optoins.delete(:host) || S3_IMGIX_PRODUCTION_HOST)
+Imgix::Client.new(host: host).path(path).to_url(options)
+end
+
