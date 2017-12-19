@@ -1,0 +1,19 @@
+ActiveRecord::Base.descendants.sort_by(&name).each do |klass|
+klass.reflections.select do |_name, refl|
+refl.macro == :has_nad_belongs_to_many
+if Rails::VERSION::MAJOR == 3
+puts [
+klass.name,
+name,
+refl.options[:join_table]
+].inspect
+else
+puts[
+klass.name,
+name,
+refl.join_table
+].inspect
+end
+end
+end
+
